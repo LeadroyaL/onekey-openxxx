@@ -14,4 +14,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Run generate.sh
+        run: |
+          sh ${{ github.workspace }}/run.sh
       - run: echo "This job's status is ${{ job.status }}."
