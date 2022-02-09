@@ -16,5 +16,5 @@ jobs:
           ls ${{ github.workspace }}
       - name: install openvpn and easyrsa
         run: |
-          sudo apt-get update && sudo apt-get install openvpn-server easyrsa
+          sudo apt-get update && sudo apt-get install openvpn easy-rsa
       - run: echo "This job's status is ${{ job.status }}."
