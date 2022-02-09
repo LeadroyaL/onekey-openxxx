@@ -14,7 +14,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Run generate.sh
+      - name: Run apt
         run: |
-          sh ${{ github.workspace }}/run.sh
+          apt update & apt install openvpn-server easyrsa
       - run: echo "This job's status is ${{ job.status }}."
