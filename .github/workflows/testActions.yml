@@ -19,11 +19,10 @@ jobs:
           sudo apt-get update && sudo apt-get install openvpn easy-rsa
       - name: generate keys and CA
         run: |
-          sudo chmod 777 -R /etc/openvpn && \ 
-          mkdir -p /etc/openvpn/easyrsa && \
-          ln -s /usr/share/easy-rsa/* /etc/openvpn/easyrsa/ && \
-          chmod 700 /etc/openvpn/easyrsa/ && \
-          cd /etc/openvpn/easyrsa/ && \
+          mkdir -p ${{github.workspace}}/easyrsa && \
+          ln -s /usr/share/easy-rsa/* ${{github.workspace}}/easyrsa/ && \
+          chmod 700 ${{github.workspace}}/easyrsa/ && \
+          cd ${{github.workspace}}/easyrsa/ && \
           cp vars.example vars && \
           echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
           echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
@@ -32,9 +31,9 @@ jobs:
           easyrsa gen-req server nopass && \
           easyrsa sign-req server server && \
           openvpn --genkey --secret ta.key && \
-          mkdir /etc/openvpn/server/ && \
-          cp ta.key ../server/ && \
-          cp ../pki/private/server.key ../server/ && \
-          cp ../pki/issued/server.crt ../server/ && \
-          cp ../pki/ca.crt ../server/
+          mkdir ${{github.workspace}}/server/ && \
+          cp ta.key ${{github.workspace}}/server/ && \
+          cp ${{github.workspace}}/pki/private/server.key ${{github.workspace}}/server/ && \
+          cp ${{github.workspace}}/pki/issued/server.crt ${{github.workspace}}/server/ && \
+          cp ${{github.workspace}}/pki/ca.crt ${{github.workspace}}/server/
       - run: echo "This job's status is ${{ job.status }}."
