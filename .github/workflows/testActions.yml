@@ -19,6 +19,7 @@ jobs:
           sudo apt-get update && sudo apt-get install openvpn easy-rsa
       - name: generate keys and CA
         run: |
+          sudo chmod 777 -R /etc/openvpn && \ 
           mkdir -p /etc/openvpn/easyrsa && \
           ln -s /usr/share/easy-rsa/* /etc/openvpn/easyrsa/ && \
           chmod 700 /etc/openvpn/easyrsa/ && \
