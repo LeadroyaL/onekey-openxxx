@@ -14,11 +14,9 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: install openvpn and easyrsa
-        run: |
-          sudo apt-get update && sudo apt-get install openvpn easy-rsa
       - name: generate keys and CA
         run: |
+          sudo apt-get update && sudo apt-get install openvpn easy-rsa && \
           mkdir -p ${{github.workspace}}/easyrsa && \
           ln -s /usr/share/easy-rsa/* ${{github.workspace}}/easyrsa/ && \
           chmod 700 ${{github.workspace}}/easyrsa/ && \
