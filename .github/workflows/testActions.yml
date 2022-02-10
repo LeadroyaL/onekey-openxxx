@@ -22,8 +22,8 @@ jobs:
           chmod 700 ${{github.workspace}}/easyrsa/ && \
           cd ${{github.workspace}}/easyrsa/ && \
           cp vars.example vars && \
-          echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
-          echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
+          "set_var EASYRSA_ALGO 'ec'" >> vars && \
+          "set_var EASYRSA_ALGO 'ec'" >> vars && \
           ./easyrsa init-pki && \
           ./easyrsa build-ca nopass && \
           ./easyrsa gen-req server nopass && \
