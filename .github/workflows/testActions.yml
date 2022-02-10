@@ -24,10 +24,10 @@ jobs:
           cp vars.example vars && \
           echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
           echo "set_var EASYRSA_ALGO 'ec'" >> vars && \
-          easyrsa init-pki && \
-          easyrsa build-ca nopass && \
-          easyrsa gen-req server nopass && \
-          easyrsa sign-req server server && \
+          ./easyrsa init-pki && \
+          ./easyrsa build-ca nopass && \
+          ./easyrsa gen-req server nopass && \
+          ./easyrsa sign-req server server && \
           openvpn --genkey --secret ta.key && \
           mkdir ${{github.workspace}}/server/ && \
           cp ta.key ${{github.workspace}}/server/ && \
