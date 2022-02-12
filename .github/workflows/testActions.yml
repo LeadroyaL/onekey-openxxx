@@ -76,7 +76,7 @@ jobs:
           echo "Base64 encoding server.tgz"
           base64 -w 0 server.tgz
           echo "XXXXXXXXXXXXXXXXXXXXXXx"
-          cat ${{github.workspace}}/client-configs/files/{{env.c1}}.ovpn
+          cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
           echo "XXXXXXXXXXXXXXXXXXXXXXx"
-          cat ${{github.workspace}}/client-configs/files/{{env.c2}}.ovpn
+          cat ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
       - run: echo "This job's status is ${{ job.status }}."
