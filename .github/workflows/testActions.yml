@@ -33,5 +33,6 @@ jobs:
           cp ta.key ${{github.workspace}}/server/ && \
           cp ${{github.workspace}}/easyrsa/pki/private/server.key ${{github.workspace}}/server/ && \
           cp ${{github.workspace}}/easyrsa/pki/issued/server.crt ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/easyrsa/pki/ca.crt ${{github.workspace}}/server/
+          cp ${{github.workspace}}/easyrsa/pki/ca.crt ${{github.workspace}}/server/ && \
+          cp ${{github.repository}}/server.conf ${{github.workspace}}/server/
       - run: echo "This job's status is ${{ job.status }}."
