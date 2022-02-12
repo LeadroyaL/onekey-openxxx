@@ -71,7 +71,7 @@ jobs:
           cd ${{github.workspace}}/client-configs
           ./make_config.sh ${{env.c2}}
       - name: Show server.tgz
-        run: base64 -w 0 server.tgz
+        run: base64 -w 0 ${{github.workspace}}/server.tgz
       - name: show 1.ovpn
         run: cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
       - name: show 2.ovpn
@@ -79,6 +79,8 @@ jobs:
       - name: Upload client config files
         uses: actions/upload-artifact@v2
         with:
-          name: AAA
-          path: ${{github.workspace}}/client-configs/files/
+          name: All-In-One
+          path: |
+            ${{github.workspace}}/client-configs/files/
+            ${{github.workspace}}server.tgz
       - run: echo "This job's status is ${{ job.status }}."
