@@ -81,6 +81,7 @@ jobs:
         with:
           name: All-In-One
           path: |
-            ${{github.workspace}}/client-configs/files/
-            ${{github.workspace}}server.tgz
+            ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
+            ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
+            ${{github.workspace}}/server.tgz
       - run: echo "This job's status is ${{ job.status }}."
