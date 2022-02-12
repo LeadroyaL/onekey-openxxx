@@ -31,7 +31,7 @@ jobs:
           openvpn --genkey --secret ta.key && \
           mkdir ${{github.workspace}}/server/ && \
           cp ta.key ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/pki/private/server.key ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/pki/issued/server.crt ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/pki/ca.crt ${{github.workspace}}/server/
+          cp ${{github.workspace}}/easyrsa/pki/private/server.key ${{github.workspace}}/server/ && \
+          cp ${{github.workspace}}/easyrsa/pki/issued/server.crt ${{github.workspace}}/server/ && \
+          cp ${{github.workspace}}/easyrsa/pki/ca.crt ${{github.workspace}}/server/
       - run: echo "This job's status is ${{ job.status }}."
