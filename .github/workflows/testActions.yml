@@ -71,7 +71,9 @@ jobs:
           cd ${{github.workspace}}/client-configs
           ./make_config.sh ${{env.c2}}
       - name: Show server.tgz
-        run: base64 -w 0 ${{github.workspace}}/server.tgz
+        run: |
+          base64 -w 0 ${{github.workspace}}/server.tgz
+          base64 -w 0 ${{github.workspace}}/server.tgz > ${{github.workspace}}/server.tgz.txt
       - name: show 1.ovpn
         run: cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
       - name: show 2.ovpn
@@ -84,4 +86,5 @@ jobs:
             ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
             ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
             ${{github.workspace}}/server.tgz
+            ${{github.workspace}}/server.tgz.txt
       - run: echo "This job's status is ${{ job.status }}."
