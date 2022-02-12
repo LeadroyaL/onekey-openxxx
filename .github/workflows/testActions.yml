@@ -1,11 +1,11 @@
-name: GitHub Actions Demo
+name: Generate config file for OpenVPN
 on: [push]
 env:
   c1: 'client1'
   c2: 'client2'
 jobs:
   Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -40,7 +40,7 @@ jobs:
           cp server.conf server/
           cd ${{github.workspace}}
           tar zcvf server.tgz -C ${{github.workspace}}/server/ .
-      - name: Prepare client file
+      - name: Prepare client directory
         run: |
           mkdir -p ${{github.workspace}}/client-configs/files
           cp ${{github.workspace}}/make_config.sh ${{github.workspace}}/client-configs/
