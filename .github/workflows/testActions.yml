@@ -38,9 +38,13 @@ jobs:
           cd ${{github.workspace}}
           tar zcvf server.tgz -C ${{github.workspace}}/server/ .
       - name: base64 server.tgz
-        run: base64 server.tgz
+        run: base64 -w 0 server.tgz
       - name: Prepare client file
-        run: mkdir -p ${{github.workspace}}/client-configs/files
+        run: |
+          mkdir -p ${{github.workspace}}/client-configs/files
+          cp ${{github.workspace}}/make_config.sh ${{github.workspace}}/client-configs/
+          chmod 700 ${{github.workspace}}/client-configs/make_config.sh
+          cp ${{github.workspace}}/base.conf ${{github.workspace}}/client-configs/
       - name: Generate 1.ovpn
         run: |
           cd ${{github.workspace}}/easyrsa
@@ -51,9 +55,6 @@ jobs:
           cp pki/issued/client1.crt ${{github.workspace}}/client-configs/keys/
           cp pki/ca.crt ${{github.workspace}}/client-configs/keys/
           cp ta.key ${{github.workspace}}/client-configs/keys/
-          cp ${{github.workspace}}/make_config.sh ${{github.workspace}}/client-configs/
-          chmod 700 ${{github.workspace}}/client-configs/make_config.sh
           cd ${{github.workspace}}/client-configs
-          echo "TODO: base.conf"
           ./make_config.sh client1
       - run: echo "This job's status is ${{ job.status }}."
