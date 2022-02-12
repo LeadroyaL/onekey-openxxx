@@ -48,7 +48,7 @@ jobs:
       - name: Generate 1.ovpn
         run: |
           cd ${{github.workspace}}/easyrsa
-          ./easyrsa gen-req client1 <<< ""
+          ./easyrsa gen-req client1 nopass <<< ""
           ./easyrsa sign-req client client1 <<< "yes"
           mkdir -p ${{github.workspace}}/client-configs/keys/
           cp pki/private/client1.key ${{github.workspace}}/client-configs/keys/
