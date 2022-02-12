@@ -17,18 +17,17 @@ jobs:
       - name: generate keys and CA
         run: |
           id && \
-          sudo apt update && sudo apt install -y easy-rsa && \
+          sudo apt update && sudo apt install -y easy-rsa openvpn && \
           mkdir -p ${{github.workspace}}/easyrsa && \
           ln -s /usr/share/easy-rsa/* ${{github.workspace}}/easyrsa/ && \
-          chmod 700 ${{github.workspace}}/easyrsa/ && \
           cd ${{github.workspace}}/easyrsa/ && \
           cp vars.example vars && \
           echo "set_var EASYRSA_ALGO \"ec\"" >> vars && \
           echo "set_var EASYRSA_DIGEST \"sha512\"" >> vars && \
           ./easyrsa init-pki && \
           ./easyrsa build-ca nopass <<< "" && \
-          ./easyrsa gen-req server nopass && \
-          ./easyrsa sign-req server server && \
+          ./easyrsa gen-req server nopass <<< "" && \
+          ./easyrsa sign-req server server <<< "yes" && \
           openvpn --genkey --secret ta.key && \
           mkdir ${{github.workspace}}/server/ && \
           cp ta.key ${{github.workspace}}/server/ && \
