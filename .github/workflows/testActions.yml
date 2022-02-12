@@ -36,7 +36,7 @@ jobs:
           cp easyrsa/pki/ca.crt server/
           cp server.conf server/
           cd ${{github.workspace}}
-          tar zcvf server.tgz -C ${{github.workspace}}/server/
+          tar zcvf server.tgz -C ${{github.workspace}}/server/ .
       - name: base64 server.tgz
         run: base64 server.tgz
       - name: Prepare client file
