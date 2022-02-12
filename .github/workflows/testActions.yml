@@ -76,4 +76,9 @@ jobs:
         run: cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
       - name: show 2.ovpn
         run: cat ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
+      - name: Upload client config files
+        uses: actions/upload-artifact@v2
+        with:
+          name: AAA
+          path: ${{github.workspace}}/client-configs/files/
       - run: echo "This job's status is ${{ job.status }}."
