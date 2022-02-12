@@ -1,5 +1,8 @@
 name: GitHub Actions Demo
 on: [push]
+env:
+  client1_name: 'client1'
+  client2_name: 'client2'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -37,8 +40,6 @@ jobs:
           cp server.conf server/
           cd ${{github.workspace}}
           tar zcvf server.tgz -C ${{github.workspace}}/server/ .
-      - name: base64 server.tgz
-        run: base64 -w 0 server.tgz
       - name: Prepare client file
         run: |
           mkdir -p ${{github.workspace}}/client-configs/files
@@ -48,13 +49,34 @@ jobs:
       - name: Generate 1.ovpn
         run: |
           cd ${{github.workspace}}/easyrsa
-          ./easyrsa gen-req client1 nopass <<< ""
-          ./easyrsa sign-req client client1 <<< "yes"
+          ./easyrsa gen-req ${{env.client1}} nopass <<< ""
+          ./easyrsa sign-req client ${{env.client1}} <<< "yes"
           mkdir -p ${{github.workspace}}/client-configs/keys/
-          cp pki/private/client1.key ${{github.workspace}}/client-configs/keys/
-          cp pki/issued/client1.crt ${{github.workspace}}/client-configs/keys/
+          cp pki/private/${{env.client1}}.key ${{github.workspace}}/client-configs/keys/
+          cp pki/issued/${{env.client1}}.crt ${{github.workspace}}/client-configs/keys/
           cp pki/ca.crt ${{github.workspace}}/client-configs/keys/
           cp ta.key ${{github.workspace}}/client-configs/keys/
           cd ${{github.workspace}}/client-configs
-          ./make_config.sh client1
+          ./make_config.sh ${{env.client1}}
+      - name: Generate 2.ovpn
+        run: |
+          cd ${{github.workspace}}/easyrsa
+          ./easyrsa gen-req ${{env.client2}} nopass <<< ""
+          ./easyrsa sign-req client ${{env.client2}} <<< "yes"
+          mkdir -p ${{github.workspace}}/client-configs/keys/
+          cp pki/private/${{env.client2}}.key ${{github.workspace}}/client-configs/keys/
+          cp pki/issued/${{env.client2}}.crt ${{github.workspace}}/client-configs/keys/
+          cp pki/ca.crt ${{github.workspace}}/client-configs/keys/
+          cp ta.key ${{github.workspace}}/client-configs/keys/
+          cd ${{github.workspace}}/client-configs
+          ./make_config.sh ${{env.client2}}
+      - name: Show result
+        run: |
+          echo "XXXXXXXXXXXXXXXXXXXXXXx"
+          echo "Base64 encoding server.tgz"
+          base64 -w 0 server.tgz
+          echo "XXXXXXXXXXXXXXXXXXXXXXx"
+          cat ${{github.workspace}}/client-configs/files/{{env.client1}}.ovpn
+          echo "XXXXXXXXXXXXXXXXXXXXXXx"
+          cat ${{github.workspace}}/client-configs/files/{{env.client2}}.ovpn
       - run: echo "This job's status is ${{ job.status }}."
