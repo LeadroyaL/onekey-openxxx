@@ -70,13 +70,10 @@ jobs:
           cp ta.key ${{github.workspace}}/client-configs/keys/
           cd ${{github.workspace}}/client-configs
           ./make_config.sh ${{env.c2}}
-      - name: Show result
-        run: |
-          echo "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
-          base64 -w 0 server.tgz
-          echo
-          echo "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
-          cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
-          echo "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
-          cat ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
+      - name: Show server.tgz
+        run: base64 -w 0 server.tgz
+      - name: show 1.ovpn
+        run: cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
+      - name: show 2.ovpn
+        run: cat ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
       - run: echo "This job's status is ${{ job.status }}."
