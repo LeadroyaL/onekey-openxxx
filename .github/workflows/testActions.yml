@@ -14,25 +14,29 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: generate keys and CA
+      - name: generate server.tgz
         run: |
-          id && \
-          sudo apt update && sudo apt install -y easy-rsa openvpn && \
-          mkdir -p ${{github.workspace}}/easyrsa && \
-          ln -s /usr/share/easy-rsa/* ${{github.workspace}}/easyrsa/ && \
-          cd ${{github.workspace}}/easyrsa/ && \
-          cp vars.example vars && \
-          echo "set_var EASYRSA_ALGO \"ec\"" >> vars && \
-          echo "set_var EASYRSA_DIGEST \"sha512\"" >> vars && \
-          ./easyrsa init-pki && \
-          ./easyrsa build-ca nopass <<< "" && \
-          ./easyrsa gen-req server nopass <<< "" && \
-          ./easyrsa sign-req server server <<< "yes" && \
-          openvpn --genkey --secret ta.key && \
-          mkdir ${{github.workspace}}/server/ && \
-          cp ta.key ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/easyrsa/pki/private/server.key ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/easyrsa/pki/issued/server.crt ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/easyrsa/pki/ca.crt ${{github.workspace}}/server/ && \
-          cp ${{github.workspace}}/server.conf ${{github.workspace}}/server/
+          sudo apt update && sudo apt install -y easy-rsa openvpn
+          mkdir ${{github.workspace}}/easyrsa
+          ln -s /usr/share/easy-rsa/* ${{github.workspace}}/easyrsa/
+          cd ${{github.workspace}}/easyrsa/
+          cp vars.example vars
+          echo "set_var EASYRSA_ALGO \"ec\"" >> vars
+          echo "set_var EASYRSA_DIGEST \"sha512\"" >> vars
+          ./easyrsa init-pki
+          ./easyrsa build-ca nopass <<< ""
+          ./easyrsa gen-req server nopass <<< ""
+          ./easyrsa sign-req server server <<< "yes"
+          openvpn --genkey --secret ta.key
+          mkdir ${{github.workspace}}/server/
+          cd ${{github.workspace}}/server/
+          cp easyrsa/ta.key server/
+          cp easyrsa/pki/private/server.key server/
+          cp easyrsa/pki/issued/server.crt server/
+          cp easyrsa/pki/ca.crt server/
+          cp server.conf server/
+          cd ${{github.workspace}}
+          tar zcvf server.tgz -C ${{github.workspace}}/server/
+      - name: base64 server.tgz
+        run: base64 server.tgz
       - run: echo "This job's status is ${{ job.status }}."
