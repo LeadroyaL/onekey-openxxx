@@ -72,11 +72,11 @@ jobs:
           ./make_config.sh ${{env.c2}}
       - name: Show result
         run: |
-          echo "XXXXXXXXXXXXXXXXXXXXXXx"
-          echo "Base64 encoding server.tgz"
+          echo "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
           base64 -w 0 server.tgz
-          echo "XXXXXXXXXXXXXXXXXXXXXXx"
+          echo
+          echo "\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
           cat ${{github.workspace}}/client-configs/files/${{env.c1}}.ovpn
-          echo "XXXXXXXXXXXXXXXXXXXXXXx"
+          echo "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
           cat ${{github.workspace}}/client-configs/files/${{env.c2}}.ovpn
       - run: echo "This job's status is ${{ job.status }}."
