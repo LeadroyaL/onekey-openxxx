@@ -29,7 +29,7 @@ jobs:
           ./easyrsa sign-req server server <<< "yes"
           openvpn --genkey --secret ta.key
           mkdir ${{github.workspace}}/server/
-          cd ${{github.workspace}}/server/
+          cd ${{github.workspace}}
           cp easyrsa/ta.key server/
           cp easyrsa/pki/private/server.key server/
           cp easyrsa/pki/issued/server.crt server/
@@ -39,4 +39,21 @@ jobs:
           tar zcvf server.tgz -C ${{github.workspace}}/server/
       - name: base64 server.tgz
         run: base64 server.tgz
+      - name: Prepare client file
+        run: mkdir -p ${{github.workspace}}/client-configs/files
+      - name: Generate 1.ovpn
+        run: |
+          cd ${{github.workspace}}/easyrsa
+          ./easyrsa gen-req client1 <<< ""
+          ./easyrsa sign-req client client1 <<< "yes"
+          mkdir -p ${{github.workspace}}/client-configs/keys/
+          cp pki/private/client1.key ${{github.workspace}}/client-configs/keys/
+          cp pki/issued/client1.crt ${{github.workspace}}/client-configs/keys/
+          cp pki/ca.crt ${{github.workspace}}/client-configs/keys/
+          cp ta.key ${{github.workspace}}/client-configs/keys/
+          cp ${{github.workspace}}/make_config.sh ${{github.workspace}}/client-configs/
+          chmod 700 ${{github.workspace}}/client-configs/make_config.sh
+          cd ${{github.workspace}}/client-configs
+          echo "TODO: base.conf"
+          ./make_config.sh client1
       - run: echo "This job's status is ${{ job.status }}."
